@@ -1,4 +1,5 @@
 use serde_derive::{Deserialize, Serialize};
+use std::env;
 use reqwest::{Url, StatusCode, blocking::Client};
 
 
@@ -46,10 +47,20 @@ fn delete_resource(url:String, token: String, delete_list: ResponseData){
 }
 
 fn main(){
-    let api_url = "<BASEURL>"; // Example https://server.apps.tpa.qe.net/api/v2/advisory
-    let filter = "<FILTERING CONDITION>"; //q=modified%3E1996-12-31T18%3A30%3A00.000Z%26modified%3C2024-12-30T18%3A30%3A00.000Z
+    let api_url = match env::var("BASE_URL") { // Example https://server.apps.tpa.qe.net/api/v2/advisory
+        Ok(url) => url,
+        _ => panic!("ERROR: Specify BASE_URL env var (e.g. BASE_URL='http://localhost/api/v2/advisory')"),
+    };
+    let filter = match env::var("Q") { //q=modified%3E1996-12-31T18%3A30%3A00.000Z%26modified%3C2024-12-30T18%3A30%3A00.000Z
+        Ok(query) => query,
+        _ => panic!("ERROR: Specify in Q env var the query part of url (e.g. Q='q=modified...')"),
+    };
+    let token: String = match env::var("API_TOKEN") { //API Token
+        Ok(token) => token,
+        _ => panic!("ERROR: Specify authentication token for API (value for Bearer token, e.g. API_TOKEN=blah)"),
+    };
+
     let get_url = format!("{}{}",api_url, filter);
-    let token = "<API TOKEN>"; //API Token
     let res = get_delete_list(get_url.to_string(), token.to_string());
     delete_resource(api_url.to_string(), token.to_string(), res);
 
