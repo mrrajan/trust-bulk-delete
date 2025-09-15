@@ -37,9 +37,9 @@ fn delete_resource(url:String, token: String, delete_list: ResponseData){
         let req_url: Url = Url::parse(&delete_url).expect("Error parsing");
         println!("Delete URL {}", &req_url);
         let client = Client::builder().danger_accept_invalid_certs(true).build().expect("Failed");
-        let deleteRes = client.delete(req_url).header("Authorization", format!("Bearer {}", token)).send().expect("Failed");
-        if deleteRes.status() != StatusCode::OK{
-            println!("Deletion failed for resource: {} with error {}",response.id, deleteRes.status());
+        let delete_res = client.delete(req_url).header("Authorization", format!("Bearer {}", token)).send().expect("Failed");
+        if delete_res.status() != StatusCode::OK{
+            println!("Deletion failed for resource: {} with error {}",response.id, delete_res.status());
         }
     }
     println!("Deletion Done...");
