@@ -13,6 +13,7 @@ pub struct ResponseData {
 pub struct Item {
     #[serde(rename = "id")]
     #[serde(alias = "uuid")]
+    #[serde(alias = "sbom_id")]
     pub id: String,
 }
 async fn get_delete_list(url: String, token: String) -> ResponseData{
