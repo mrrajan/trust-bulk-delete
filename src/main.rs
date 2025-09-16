@@ -64,9 +64,9 @@ async fn main() {
         Ok(url) => url,
         _ => panic!("ERROR: Specify BASE_URL env var (e.g. BASE_URL='http://localhost/api/v2/advisory')"),
     };
-    let filter = match env::var("Q") { //q=modified%3E1996-12-31T18%3A30%3A00.000Z%26modified%3C2024-12-30T18%3A30%3A00.000Z
+    let filter = match env::var("Q") { //?q=modified%3E1996-12-31T18%3A30%3A00.000Z%26modified%3C2024-12-30T18%3A30%3A00.000Z
         Ok(query) => query,
-        _ => panic!("ERROR: Specify in Q env var the query part of url (e.g. Q='q=modified...')"),
+        _ => panic!("ERROR: Specify in Q env var the query part of url (e.g. Q='?q=modified...')"),
     };
     let token: String = match env::var("API_TOKEN") { //API Token
         Ok(token) => token,
